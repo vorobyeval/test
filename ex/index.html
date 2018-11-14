@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>parse url</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#submit').on('click',function () {
+                var url = $('#url').val();
+                if(url){
+                    $.ajax({
+                        url: 'http://ex/parseurl.php',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: {url: url},
+                        success: function (data) {
+                            if(!data.status){
+                                $('#error').show().html(data.text);
+                            } else {
+                                $('#error').hide();
+                                $('#new-url-block').show();
+                                $('#new-url').val(data.text);
+                            }
+                        },
+                        error: function (error) {
+                            $('#error').show().html(error.responseText);
+                        }
+                    });
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+
+<div>
+    <label for="url">Enter url:</label>
+    <input id="url" type="text" placeholder="url">
+    <button id="submit">submit</button>
+</div>
+<div hidden id="error" style="color: red;"></div>
+<br>
+<div id="new-url-block" hidden>
+    <span>New url: <span><input id="new-url">
+</div>
+
+</body>
+</html>
